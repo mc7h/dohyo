@@ -8,29 +8,32 @@
 import SwiftUI
 
 struct AppView: View {
+    @Environment(AppSettings.self) var appSettings
     @State private var showSettings = false
+    @AppStorage("userFoo") var userFoo:Bool = false
     var body: some View {
         NavigationView {
             VStack {
                 Spacer()
-                HStack {
-                    Spacer()
-                    Image(systemName: "globe")
-                        .imageScale(.large)
-                        .foregroundStyle(.tint)
-                    //Text(viewModel.guess)
-                    Spacer()
-                }
+                Image("Hakuho")
+                    .resizable()
+                    .scaledToFit()
+                Text("count")
+                Text("\(appSettings.counter)")
+                    .font(.largeTitle)
+                Text("Showing hints").opacity(appSettings.showHints ? 0.5 : 0)
                 Spacer()
                 VStack {
-                    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
                     Button("Tap me") {
-                        //viewModel.updateGuess("Yay")
+                        appSettings.counter += 1
+                    }
+                    Toggle(isOn: $userFoo) {
+                        Text("Save")
                     }
                 }
                 .padding()
-                .border(.flair, width:  2)
-                Spacer()
+                .background(.regularMaterial)
+                
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -44,6 +47,8 @@ struct AppView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
+                        Image(systemName: "bolt.fill")
+                            .foregroundStyle(.flair)
                         Button {
                             showSettings.toggle()
                         } label: {
@@ -63,4 +68,5 @@ struct AppView: View {
 
 #Preview {
     AppView()
+        .environment(AppSettings())
 }

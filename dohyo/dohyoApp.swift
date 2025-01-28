@@ -12,6 +12,7 @@ struct dohyoApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()
+                .environment(AppSettings())
         }
     }
 }

@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(AppSettings.self) var appSettings
     @Environment(\.dismiss) var dismiss
     var body: some View {
+        @Bindable var bindableAppSettings = appSettings
         NavigationView {
-            VStack {
-                Toggle("Show hints", isOn: .constant(false))
+            VStack(alignment: .leading) {
+                Toggle("Show hints", isOn: $bindableAppSettings.showHints)
                 Spacer()
-            }.padding()
+                AboutView()
+            }
+            .padding()
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -22,7 +26,7 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "checkmark")
+                        Image(systemName: "arrow.uturn.backward.circle.fill")
                     }
                 }
             }
@@ -32,4 +36,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environment(AppSettings())
 }
